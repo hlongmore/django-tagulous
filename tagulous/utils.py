@@ -260,29 +260,35 @@ def split_tree_name(name):
     split = False
     start = 0
     index = 0
-    chars = list(enumerate(name))
-    while chars:
-        index, char = chars.pop(0)
-        if char == TREE:
-            if split:
-                # Slash was escaped
+    # Perhaps there is a better way (like, simplify the allowed delimiters, and
+    # just use a split? But the current way, we need a special case for when
+    # len(name) == 1
+    if len(name) == 1:
+        parts.append(name)
+    else:
+        chars = list(enumerate(name))
+        while chars:
+            index, char = chars.pop(0)
+            if char == TREE:
+                if split:
+                    # Slash was escaped
+                    split = False
+                else:
+                    split = True
+
+            elif split:
+                # Previous character was a valid delimiter
+                parts.append(name[start:index - 1].strip())
+                start = index
                 split = False
-            else:
-                split = True
 
-        elif split:
-            # Previous character was a valid delimiter
-            parts.append(name[start:index - 1].strip())
-            start = index
-            split = False
+        if split:
+            # Trailing slash - shouldn't happen if sanitised, but handle anyway
+            parts += [name[start:index].strip(), '']
 
-    if split:
-        # Trailing slash - shouldn't happen if sanitised, but handle anyway
-        parts += [name[start:index].strip(), '']
-
-    elif start < index:
-        # If string not empty, add everything after last slash
-        parts.append(name[start:].strip())
+        elif start < index:
+            # If string not empty, add everything after last slash
+            parts.append(name[start:].strip())
 
     return [
         part.replace(TREE + TREE, TREE) for part in parts

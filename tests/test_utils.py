@@ -335,6 +335,11 @@ class TagTreeSplitUtilTest(TestCase):
         self.assertEqual(parts[0], "one")
         self.assertEqual(parts[1], "two/")
 
+    def test_split_tree_single_char(self):
+        parts = tag_utils.split_tree_name('L')
+        self.assertEqual(len(parts), 1)
+        self.assertEqual(parts[0], 'L')
+
 
 class TagTreeJoinUtilTest(TestCase):
     """
