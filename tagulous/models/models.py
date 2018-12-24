@@ -836,6 +836,9 @@ class TagTreeModel(BaseTagTreeModel, TagModel):
         default=1, help_text='The level of the tag in the tree',
     )
 
+    class TagMeta:
+        force_lowercase = True
+
     class Meta:
         abstract = True
         ordering = ('name',)
