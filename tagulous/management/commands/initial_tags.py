@@ -27,6 +27,10 @@ class Command(BaseCommand):
     If model_name is missing, initialise all tag fields on models in the app
     If app_name is missing, initialise all tag fields on all models in all apps
     """
+
+    def add_arguments(self, parser):
+        parser.add_argument('--target', type=str)
+
     help = 'Load initial tagulous tags'
     args = '[<app_name>[.<model_name>[.<field_name>]]]'
 
