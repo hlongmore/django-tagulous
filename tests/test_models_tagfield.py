@@ -704,7 +704,7 @@ class ModelTagFieldTest(TagTestManager, TestCase):
     def test_fake_manager(self):
         "Check that the FakeTagRelatedManager doesn't do databases"
         errmsg = (
-            '"<TagFieldModel: TagFieldModel object>" needs to be saved '
+            '"<TagFieldModel: TagFieldModel object (None)>" needs to be saved '
             'before TagField can use the database'
         )
         t1 = test_models.TagFieldModel(name="Test 1", tags='blue, red')
